@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Happy Birthday Tony!</title>
+
+  <style>
+    body {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    background: #fff9f9;
+    overflow-x: hidden;
+    margin: 0;
+    position: relative;
+    min-height: 100vh;
+  }
+  #tony {
+    width: 50vw;
+    max-width: 300px;
+    cursor: pointer;
+    border-radius: 15px;
+    margin-top: 10vh;
+    transition: transform 1s ease, opacity 1s ease;
+  }
+  #message {
+    margin-top: 5vh;
+    font-size: 4vw;
+    color: #333;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    background: #fff0f0;
+    padding: 3vw;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    display: none;
+    white-space: pre-wrap;
+  }
+  .emoji {
+    position: absolute;
+    font-size: 6vw;
+    pointer-events: none;
+    animation: fall 3s linear forwards;
+  }
+  @keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1;}
+    100% { transform: translateY(120vh) rotate(360deg); opacity:0;}
+  }
+  </style>
+
+  
+</head>
+<body>
+  <h1 style="font-size:6vw;">Happy Birthday, My Tony! 🎉</h1>
+<img id="tony" src="https://i.postimg.cc/zBmkL63j/lqtt-shasht-2025-11-29-013846.png" alt="Tony">
+<div id="message"></div>
+
+<audio id="music" src="https://orangefreesounds.com/wp-content/uploads/2022/07/Background-piano-music.mp3" loop></audio>
+
+  <script>
+    const tony = document.getElementById('tony');
+  const message = document.getElementById('message');
+  const music = document.getElementById('music');
+
+  const text = `Happy birthday to my love my Tony. Every November reminds me that the world became softer the day you arrived.
+You carry a kind of warmth that stays with me even on the coldest days, and a light that never fades no matter how heavy life gets.
+I’m grateful for you, your heart, your presence, your quiet strength, and the way you make everything feel a little less chaotic.
+I pray this November opens new doors for you, fills your days with peace and brings you closer to every dream you’ve ever held.
+You deserve a gentle life, a joyful life, and I’m thankful I get to walk a part of it with you.`;
+
+  let firstTouch = true;
+
+  function typeText(text, element, index=0) {
+    if(index < text.length){
+      element.innerHTML += text[index];
+      setTimeout(()=>typeText(text, element, index+1), 40);
+    }
+  }
+
+  function startInteraction(){
+    if(firstTouch){
+      firstTouch = false;
+      // تشغيل الموسيقى
+      music.play();
+      // تكبير الصورة
+      tony.style.transform = 'scale(1.5)';
+      setTimeout(() => {
+        tony.style.transform = 'scale(1.2)';
+        // ظهور الرسالة
+        message.style.display = 'block';
+        typeText(text, message);
+      }, 800);
+    }
+  }
+
+  tony.addEventListener('click', startInteraction);
+  tony.addEventListener('touchstart', startInteraction);
+
+  document.body.addEventListener('click', (e) => {
+    if(e.target.id !== 'tony'){
+      createEmoji(e.pageX, e.pageY);
+    }
+  });
+
+  document.body.addEventListener('touchstart', (e) => {
+    const touch = e.touches[0];
+    if(touch.target.id !== 'tony'){
+      createEmoji(touch.pageX, touch.pageY);
+    }
+  });
+
+  function createEmoji(x, y){
+    const emojis = ['🎈','🎉','✨','💖','🥰','🌟'];
+    const emoji = document.createElement('div');
+    emoji.classList.add('emoji');
+    emoji.style.left = x + 'px';
+    emoji.style.top = y + 'px';
+    emoji.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
+    document.body.appendChild(emoji);
+    setTimeout(()=>emoji.remove(), 3000);
+  }
+  </script>
+</body>
+</html>
